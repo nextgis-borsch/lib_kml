@@ -33,13 +33,15 @@ class XsdComplexType;
 class XsdElement;
 class XsdSchema;
 
-#   ifdef _WIN32
-#    ifdef KML_EXPORTS
-#        define KML_EXTERN __declspec(dllexport)
-#    else
-#        define KML_EXTERN __declspec(dllimport)
-#    endif
-#   endif
+#ifdef _WIN32
+# ifdef KML_EXPORTS
+#     define KML_EXTERN __declspec(dllexport)
+# else
+#     define KML_EXTERN __declspec(dllimport)
+# endif
+#else
+# define KML_EXTERN 
+#endif
 
 KML_EXTERN extern const char kAbstract[];
 KML_EXTERN extern const char kBase[];
