@@ -35,7 +35,7 @@ include_directories(
 
 set(WITH_GTest ON CACHE BOOL "Google test on")
 set(WITH_GTest_EXTERNAL ON CACHE BOOL "Google test external on")
-find_anyproject(GTest REQUIRED SHARED OFF)
+find_anyproject(GTest REQUIRED)
 
 function(build_test)
   cmake_parse_arguments(TEST  "" "GROUP;NAME" "DEPENDS" ${ARGN} )
@@ -51,6 +51,19 @@ function(build_test)
   target_link_libraries(${TEST_GROUP}_${TEST_NAME}_test ${TEST_LINKS} ${TEST_DEPENDS} ${GTEST_LIBRARY})
   set_target_properties(${TEST_GROUP}_${TEST_NAME}_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
   add_test(${TEST_GROUP}_${TEST_NAME} ${CMAKE_BINARY_DIR}/bin/${TEST_GROUP}_${TEST_NAME}_test)
+
+  if(WIN32)
+      file(GLOB_RECURSE IMPORTED_WIN_DLLS ${CMAKE_BINARY_DIR}/third-party/*.dll)
+      foreach(IMPORTED_WIN_DLL ${IMPORTED_WIN_DLLS})
+          add_custom_command(TARGET ${TEST_GROUP}_${TEST_NAME}_test
+                              POST_BUILD
+                              COMMAND ${CMAKE_COMMAND} -E copy_if_different ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin
+                              COMMAND ${CMAKE_COMMAND} -E copy_if_different ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin/Release    # For Windows
+                              COMMAND ${CMAKE_COMMAND} -E copy_if_different ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin/Debug      # For Windows
+                              COMMENT "Copy ${IMPORTED_WIN_DLL} to test bin directory"
+                          )
+      endforeach()
+  endif()
 endfunction(build_test)
 
 add_subdirectory(kml)
