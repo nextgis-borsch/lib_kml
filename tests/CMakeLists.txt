@@ -53,7 +53,7 @@ function(build_test)
   add_test(${TEST_GROUP}_${TEST_NAME} ${CMAKE_BINARY_DIR}/bin/${TEST_GROUP}_${TEST_NAME}_test)
 
   if(WIN32)
-      file(GLOB_RECURSE IMPORTED_WIN_DLLS ${CMAKE_BINARY_DIR}/third-party/*.dll)
+      set(IMPORTED_WIN_DLLS ${CMAKE_BINARY_DIR}/third-party/install/bin/gtest.dll ${CMAKE_BINARY_DIR}/third-party/install/bin/gtest_main.dll)
       foreach(IMPORTED_WIN_DLL ${IMPORTED_WIN_DLLS})
           add_custom_command(TARGET ${TEST_GROUP}_${TEST_NAME}_test
                               POST_BUILD
