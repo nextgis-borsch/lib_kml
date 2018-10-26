@@ -46,6 +46,7 @@ file(GLOB BASE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/base/*.cc"
 
 
 if(WIN32)
+    add_definitions(-Dtzname=_tzname)
     list(APPEND BASE_SRCS base/contrib/strptime.c)
     list(REMOVE_ITEM BASE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/base/file_posix.cc")
     if(MINGW)

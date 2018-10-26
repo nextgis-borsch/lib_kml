@@ -150,7 +150,7 @@ literal:
 		 * "Complex" conversion rules, implemented through recursion.
 		 */
 		/* we do not need 'c'
-      case 'c': Date and time, using the locale's format. 
+      case 'c': Date and time, using the locale's format.
 			new_fmt = _ctloc(d_t_fmt);
 			goto recurse;
       */
