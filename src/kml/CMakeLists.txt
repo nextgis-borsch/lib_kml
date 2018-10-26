@@ -244,6 +244,18 @@ if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
     )
 endif()
 
+if(WIN32 AND BUILD_TESTING)
+    file(GLOB_RECURSE IMPORTED_WIN_DLLS ${CMAKE_BINARY_DIR}/third-party/*.dll)
+    set(IMPORTED_WIN_DLLS ${IMPORTED_WIN_DLLS} $<TARGET_FILE:${LIB_NAME}>)
+    foreach(IMPORTED_WIN_DLL ${IMPORTED_WIN_DLLS})
+        add_custom_command(TARGET ${LIB_NAME}
+                            POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin>
+                            COMMENT "Copy ${IMPORTED_WIN_DLL} to test bin directory"
+                        )
+    endforeach()
+endif()
+
 if(NOT SKIP_INSTALL_HEADERS AND NOT SKIP_INSTALL_ALL)
     install(FILES ${ROOT_HEADERS} DESTINATION ${INSTALL_INC_DIR}/kml COMPONENT Development)
     install(FILES ${BASE_INCS} DESTINATION ${INSTALL_INC_DIR}/kml/base COMPONENT Development)
