@@ -132,7 +132,7 @@ TEST_F(StyleInlinerTest, CallStyleInlinerMethodsInTypicalUsage) {
   ASSERT_EQ(kStyleId, shared_styles.find(kStyleId)->second->get_id());
 
   // Serialize the document and verify a proper overall result.
-  ASSERT_STREQ(kExpectedKml, SerializePretty(document));
+  ASSERT_STREQ(kExpectedKml.c_str(), SerializePretty(document).c_str());
 }
 
 TEST_F(StyleInlinerTest, VerifyRemoteStyleUrlNotInlined) {

@@ -390,7 +390,7 @@ TEST(UpdateTest, TestFiles) {
     ASSERT_TRUE(
         File::ReadFileToString(string(DATADIR) + kTestCases[i].check_file_,
                                &expected));
-    ASSERT_STREQ(expected, actual);
+    ASSERT_STREQ(expected.c_str(), actual.c_str());
   }
 }
 
