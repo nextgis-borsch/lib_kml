@@ -102,6 +102,10 @@ endif()
 
 include(FindAnyProject)
 
+## Dependencies
+find_anyproject(ZLIB REQUIRED)
+find_anyproject(UriParser REQUIRED CMAKE_ARGS -DSKIP_BUILD_APPS=ON)
+find_anyproject(EXPAT REQUIRED CMAKE_ARGS -DBUILD_tools=OFF)
 find_anyproject(Boost REQUIRED)
 
 set(LIB_NAME ${PROJECT_NAME})

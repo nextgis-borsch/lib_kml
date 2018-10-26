@@ -29,11 +29,6 @@ if(WIN32)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif()
 
-## Dependencies
-find_anyproject(ZLIB REQUIRED)
-find_anyproject(UriParser REQUIRED CMAKE_ARGS -DSKIP_BUILD_APPS=ON)
-find_anyproject(EXPAT REQUIRED CMAKE_ARGS -DBUILD_tools=OFF)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/base/contrib)
 
 ### Base ###
@@ -205,7 +200,8 @@ if(BUILD_SHARED_LIBS)
     add_library(${LIB_NAME} SHARED ${CSOURCES} ${HHEADERS})
     set_target_properties (${LIB_NAME} PROPERTIES
         VERSION ${VERSION}
-        SOVERSION ${VERSION_MAJOR} )
+        SOVERSION ${VERSION_MAJOR} 
+        DEFINE_SYMBOL KML_EXPORTS)
 elseif(OSX_FRAMEWORK)
     set_property(SOURCE ${ROOT_HEADERS} PROPERTY MACOSX_PACKAGE_LOCATION "Headers/kml")
     set_property(SOURCE ${BASE_INCS} PROPERTY MACOSX_PACKAGE_LOCATION "Headers/kml/base")
@@ -245,12 +241,15 @@ if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
 endif()
 
 if(WIN32 AND BUILD_TESTING)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
     file(GLOB_RECURSE IMPORTED_WIN_DLLS ${CMAKE_BINARY_DIR}/third-party/*.dll)
     set(IMPORTED_WIN_DLLS ${IMPORTED_WIN_DLLS} $<TARGET_FILE:${LIB_NAME}>)
     foreach(IMPORTED_WIN_DLL ${IMPORTED_WIN_DLLS})
         add_custom_command(TARGET ${LIB_NAME}
                             POST_BUILD
-                            COMMAND ${CMAKE_COMMAND} -E copy ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin>
+                            COMMAND ${CMAKE_COMMAND} -E copy ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin
+                            COMMAND ${CMAKE_COMMAND} -E copy ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin/Release    # For Windows
+                            COMMAND ${CMAKE_COMMAND} -E copy ${IMPORTED_WIN_DLL} ${CMAKE_BINARY_DIR}/bin/Debug      # For Windows
                             COMMENT "Copy ${IMPORTED_WIN_DLL} to test bin directory"
                         )
     endforeach()

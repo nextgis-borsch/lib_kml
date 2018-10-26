@@ -33,21 +33,29 @@ class XsdComplexType;
 class XsdElement;
 class XsdSchema;
 
-extern const char kAbstract[];
-extern const char kBase[];
-extern const char kComplexType[];
-extern const char kDefault[];
-extern const char kElement[];
-extern const char kEnumeration[];
-extern const char kExtension[];
-extern const char kName[];
-extern const char kSchema[];
-extern const char kSimpleType[];
-extern const char kSubstitutionGroup[];
-extern const char kRestriction[];
-extern const char kTargetNamespace[];
-extern const char kType[];
-extern const char kValue[];
+#   ifdef _WIN32
+#    ifdef KML_EXPORTS
+#        define KML_EXTERN __declspec(dllexport)
+#    else
+#        define KML_EXTERN __declspec(dllimport)
+#    endif
+#   endif
+
+KML_EXTERN extern const char kAbstract[];
+KML_EXTERN extern const char kBase[];
+KML_EXTERN extern const char kComplexType[];
+KML_EXTERN extern const char kDefault[];
+KML_EXTERN extern const char kElement[];
+KML_EXTERN extern const char kEnumeration[];
+KML_EXTERN extern const char kExtension[];
+KML_EXTERN extern const char kName[];
+KML_EXTERN extern const char kSchema[];
+KML_EXTERN extern const char kSimpleType[];
+KML_EXTERN extern const char kSubstitutionGroup[];
+KML_EXTERN extern const char kRestriction[];
+KML_EXTERN extern const char kTargetNamespace[];
+KML_EXTERN extern const char kType[];
+KML_EXTERN extern const char kValue[];
 
 // Convenience utility to create a <xs:complexType name="TYPE_NAME"/>.
 XsdComplexType* CreateXsdComplexType(const string& type_name);
