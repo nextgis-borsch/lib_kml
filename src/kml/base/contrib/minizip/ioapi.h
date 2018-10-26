@@ -67,14 +67,16 @@
 #endif
 #endif
 
+/*
 #ifndef ZPOS64_T
   #ifdef _WIN32
-    #define ZPOS64_T fpos_t
+                #define ZPOS64_T fpos_t
   #else
     #include <stdint.h>
     #define ZPOS64_T uint64_t
   #endif
 #endif
+*/
 
 #ifdef HAVE_MINIZIP64_CONF_H
 #include "mz64conf.h"
