@@ -270,7 +270,7 @@ endif()
 # Export package ===============================================================
 # Add path to includes to build-tree export
 target_include_directories(${LIB_NAME} INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
 )
 
 # Add all targets to the build-tree export set
